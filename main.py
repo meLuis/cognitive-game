@@ -2,8 +2,6 @@ import random
 import time
 import os
 
-#m_cuadrada debe ser par o crear_matriz no tendra sentido
-
 def crear_lista(elementos):
     lista=2*list(range(1,elementos//2+1))
     random.shuffle(lista)
@@ -58,8 +56,18 @@ def validar_final_normal(pares_encontrados,elementos,cant_bonus_1,cant_bonus_2,p
 
 def validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bonus_2):
     print("El juego se ha detenido")
+    print("Pares jugador 1: ",pares_1)
+    print("Pares jugador 2: ",pares_2)
+    print("Bonus jugador 1: ",puntos_1)
+    print("Bonus jugador 2: ",puntos_2)
+    if cant_bonus_1:
+        print("Bonus points jugador 1: ",cant_bonus_1*1000)
+    if cant_bonus_2:
+        print("Bonus points jugador 2: ",cant_bonus_2*1000)
+    
 
 def main():
+    #m_cuadrada debe ser par o crear_matriz no tendra sentido
     m_cuadrada=6
     elementos=pow(m_cuadrada,2)
     simbolo="*"
