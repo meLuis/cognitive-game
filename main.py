@@ -1,6 +1,4 @@
 import random
-import time
-import os
 
 def crear_lista(elementos):
     lista=2*list(range(1,elementos//2+1))
@@ -29,25 +27,35 @@ def dibujar_matriz(matriz,m_cuadrada):
 def calcular_puntaje_normal(jugador,puntaje,pares):
     puntaje+=100
     pares+=1
-    print(f"El jugador {jugador} ha encontrado una pareja\n")
     return [puntaje,pares]
 
 def calcular_puntaje_bonus(jugador,puntaje,cant_bonus,pares):
     cant_bonus+=1
     puntaje+=1000
     pares+=1
-    print(f"El jugador {jugador} ha encontrado una pareja bonus\n")
     return [puntaje,pares,cant_bonus]
+
+
+def validar_casilla_sin_voltear(simbolo,matriz,fila,columna):
+
+    while matriz[fila][columna]!=simbolo:
+        print("La casilla ya ha sido destapada")
+        print("Ingrese la fila y columna valida")
+        fila=int(input("Ingrese la fila: "))-1
+        columna=int(input("Ingrese la columna: "))-1
+
+    return [fila,columna]
+
 
 def validar_final_normal(pares_encontrados,elementos,cant_bonus_1,cant_bonus_2,pares_1,pares_2):
     if pares_encontrados==elementos//2:
         print("El juego ha terminado")
         if cant_bonus_1>cant_bonus_2:
             print("El ganador es el jugador 1")
-            print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_1*pares_1)
+            print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_1*1000*pares_1)
         elif cant_bonus_1<cant_bonus_2:
             print("El ganador es el jugador 2")
-            print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_2*pares_2)
+            print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_2*1000*pares_2)
         else:
             print("El juego ha terminado en empate")
 
@@ -58,8 +66,8 @@ def validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bo
     print("El juego se ha detenido")
     print("Pares jugador 1: ",pares_1)
     print("Pares jugador 2: ",pares_2)
-    print("Bonus jugador 1: ",puntos_1)
-    print("Bonus jugador 2: ",puntos_2)
+    print("Puntos jugador 1: ",puntos_1)
+    print("Puntos jugador 2: ",puntos_2)
     if cant_bonus_1:
         print("Bonus points jugador 1: ",cant_bonus_1*1000)
     if cant_bonus_2:
@@ -94,14 +102,21 @@ def main():
         fila_indicada_1=int(input("Ingrese la fila: "))-1
         columna_indicada_1=int(input("Ingrese la columna: "))-1
 
+        lista_validacion=validar_casilla_sin_voltear(simbolo,matriz_volteada,fila_indicada_1,columna_indicada_1)
+        fila_indicada_1=lista_validacion[0]
+        columna_indicada_1=lista_validacion[1]
+
         matriz_volteada[fila_indicada_1][columna_indicada_1]=matriz[fila_indicada_1][columna_indicada_1]
         dibujar_matriz(matriz_volteada,m_cuadrada)
         valor_1=matriz[fila_indicada_1][columna_indicada_1]
 
-
         print("Ingrese la fila y columna de la segunda carta")
         fila_indicada_2=int(input("Ingrese la fila: "))-1
         columna_indicada_2=int(input("Ingrese la columna: "))-1
+
+        lista_validacion=validar_casilla_sin_voltear(simbolo,matriz_volteada,fila_indicada_2,columna_indicada_2)
+        fila_indicada_2=lista_validacion[0]
+        columna_indicada_2=lista_validacion[1]
 
         matriz_volteada[fila_indicada_2][columna_indicada_2]=matriz[fila_indicada_2][columna_indicada_2]
         dibujar_matriz(matriz_volteada,m_cuadrada)
@@ -145,7 +160,6 @@ def main():
             if jugar=="no":
                 validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bonus_2)
 
-    
 
 if __name__=='__main__':
     main()
