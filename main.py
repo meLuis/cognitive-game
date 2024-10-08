@@ -65,7 +65,6 @@ def validar_casilla_sin_voltear(simbolo,matriz,fila,columna):
         print("Ingrese la fila y columna valida")
         fila=int(input("Ingrese la fila: "))-1
         columna=int(input("Ingrese la columna: "))-1
-
     return [fila,columna]
 
 
@@ -96,110 +95,114 @@ def validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bo
     if cant_bonus_2:
         print("Bonus points jugador 2: ",cant_bonus_2*1000)
 
+def solicitar_posicion_valida(mensaje):
+    valor = input(mensaje)
+    while not valor.isdigit():  # Verificar que la entrada sea un número
+        print("Por favor, ingrese un número válido.")
+        valor = input(mensaje)
+    return int(valor) - 1  # Restamos 1 para ajustar a índices de la matriz
+
 def main():
-    #funcion principal
-    m_cuadrada=6
-    elementos=pow(m_cuadrada,2)
-    simbolo="*"
-    jugar='si'
-    pares_encontrados=0
-    num_jugador=0
-    nom_jugador_1=input("Ingrese el nombre del jugador 1: ")
-    nom_jugador_2=input("Ingrese el nombre del jugador 2: ")
-    cant_bonus_1=0
-    cant_bonus_2=0
-    puntos_1=0
-    puntos_2=0
-    pares_1=0
-    pares_2=0
-    matriz=crear_matriz(m_cuadrada,elementos)
-    matriz_volteada=crear_matriz_volteada(simbolo, m_cuadrada,elementos)
-    dibujar_matriz(matriz_volteada,m_cuadrada)
+    # Función principal
+    m_cuadrada = 6
+    elementos = pow(m_cuadrada, 2)
+    simbolo = "_"
+    jugar = 'si'
+    pares_encontrados = 0
+    num_jugador = 0
+    nom_jugador_1 = input("Ingrese el nombre del jugador 1: ")
+    nom_jugador_2 = input("Ingrese el nombre del jugador 2: ")
+    cant_bonus_1 = 0
+    cant_bonus_2 = 0
+    puntos_1 = 0
+    puntos_2 = 0
+    pares_1 = 0
+    pares_2 = 0
+    matriz = crear_matriz(m_cuadrada, elementos)
+    matriz_volteada = crear_matriz_volteada(simbolo, m_cuadrada, elementos)
+    dibujar_matriz(matriz_volteada, m_cuadrada)
 
+    while jugar == 'si':
 
-    while jugar=='si':
+        num_jugador = num_jugador % 2 + 1
 
-        num_jugador=num_jugador%2+1
-
-        if num_jugador==1:
-            jugador=nom_jugador_1
+        if num_jugador == 1:
+            jugador = nom_jugador_1
         else:
-            jugador=nom_jugador_2
+            jugador = nom_jugador_2
 
         print(f"\nTurno del jugador {jugador}\n")
 
         print("Ingrese la fila y columna de la primera carta")
-        fila_indicada_1=int(input("Ingrese la fila: "))-1
-        columna_indicada_1=int(input("Ingrese la columna: "))-1
-        lista_posiciones=validar_posicion(fila_indicada_1,columna_indicada_1,m_cuadrada)
-        fila_indicada_1=lista_posiciones[0]
-        columna_indicada_1=lista_posiciones[1]
+        fila_indicada_1 = solicitar_posicion_valida("Ingrese la fila: ")
+        columna_indicada_1 = solicitar_posicion_valida("Ingrese la columna: ")
 
-        lista_validacion=validar_casilla_sin_voltear(simbolo,matriz_volteada,fila_indicada_1,columna_indicada_1)
-        fila_indicada_1=lista_validacion[0]
-        columna_indicada_1=lista_validacion[1]
+        lista_posiciones = validar_posicion(fila_indicada_1, columna_indicada_1, m_cuadrada)
+        fila_indicada_1 = lista_posiciones[0]
+        columna_indicada_1 = lista_posiciones[1]
 
-        matriz_volteada[fila_indicada_1][columna_indicada_1]=matriz[fila_indicada_1][columna_indicada_1]
-        dibujar_matriz(matriz_volteada,m_cuadrada)
-        valor_1=matriz[fila_indicada_1][columna_indicada_1]
+        lista_validacion = validar_casilla_sin_voltear(simbolo, matriz_volteada, fila_indicada_1, columna_indicada_1)
+        fila_indicada_1 = lista_validacion[0]
+        columna_indicada_1 = lista_validacion[1]
+
+        matriz_volteada[fila_indicada_1][columna_indicada_1] = matriz[fila_indicada_1][columna_indicada_1]
+        dibujar_matriz(matriz_volteada, m_cuadrada)
+        valor_1 = matriz[fila_indicada_1][columna_indicada_1]
 
         print("Ingrese la fila y columna de la segunda carta")
-        fila_indicada_2=int(input("Ingrese la fila: "))-1
-        columna_indicada_2=int(input("Ingrese la columna: "))-1
-        validar_posicion(fila_indicada_2,columna_indicada_2,m_cuadrada)
-        lista_posiciones=validar_posicion(fila_indicada_2,columna_indicada_2,m_cuadrada)
-        fila_indicada_2=lista_posiciones[0]
-        columna_indicada_2=lista_posiciones[1]
+        fila_indicada_2 = solicitar_posicion_valida("Ingrese la fila: ")
+        columna_indicada_2 = solicitar_posicion_valida("Ingrese la columna: ")
 
-        lista_validacion=validar_casilla_sin_voltear(simbolo,matriz_volteada,fila_indicada_2,columna_indicada_2)
-        fila_indicada_2=lista_validacion[0]
-        columna_indicada_2=lista_validacion[1]
+        lista_posiciones = validar_posicion(fila_indicada_2, columna_indicada_2, m_cuadrada)
+        fila_indicada_2 = lista_posiciones[0]
+        columna_indicada_2 = lista_posiciones[1]
 
-        matriz_volteada[fila_indicada_2][columna_indicada_2]=matriz[fila_indicada_2][columna_indicada_2]
-        dibujar_matriz(matriz_volteada,m_cuadrada)
-        valor_2=matriz[fila_indicada_2][columna_indicada_2]
+        lista_validacion = validar_casilla_sin_voltear(simbolo, matriz_volteada, fila_indicada_2, columna_indicada_2)
+        fila_indicada_2 = lista_validacion[0]
+        columna_indicada_2 = lista_validacion[1]
 
-        if valor_1==valor_2:
-            pares_encontrados+=1
-            if valor_1%5==0:
+        matriz_volteada[fila_indicada_2][columna_indicada_2] = matriz[fila_indicada_2][columna_indicada_2]
+        dibujar_matriz(matriz_volteada, m_cuadrada)
+        valor_2 = matriz[fila_indicada_2][columna_indicada_2]
+
+        if valor_1 == valor_2:
+            pares_encontrados += 1
+            if valor_1 % 5 == 0:
                 print(f"El jugador {jugador} ha encontrado una par bonus\n")
 
-                if num_jugador==1:
-                    lista_bonus=calcular_puntaje_bonus(puntos_1,cant_bonus_1,pares_1)
-                    puntos_1=lista_bonus[0]
-                    pares_1=lista_bonus[1]
-                    cant_bonus_1=lista_bonus[2]
+                if num_jugador == 1:
+                    lista_bonus = calcular_puntaje_bonus(puntos_1, cant_bonus_1, pares_1)
+                    puntos_1 = lista_bonus[0]
+                    pares_1 = lista_bonus[1]
+                    cant_bonus_1 = lista_bonus[2]
                 else:
-                    lista_bonus=calcular_puntaje_bonus(puntos_2,cant_bonus_2,pares_2)
-                    puntos_2=lista_bonus[0]
-                    pares_2=lista_bonus[1]
-                    cant_bonus_2=lista_bonus[2]
+                    lista_bonus = calcular_puntaje_bonus(puntos_2, cant_bonus_2, pares_2)
+                    puntos_2 = lista_bonus[0]
+                    pares_2 = lista_bonus[1]
+                    cant_bonus_2 = lista_bonus[2]
             else:
                 print(f"El jugador {jugador} ha encontrado una par\n")
-                if num_jugador==1:
-                    lista_normal=calcular_puntaje_normal(puntos_1,pares_1)
-                    puntos_1=lista_normal[0]
-                    pares_1=lista_normal[1]
+                if num_jugador == 1:
+                    lista_normal = calcular_puntaje_normal(puntos_1, pares_1)
+                    puntos_1 = lista_normal[0]
+                    pares_1 = lista_normal[1]
                 else:
-                    lista_normal=calcular_puntaje_normal(puntos_2,pares_2)
-                    puntos_2=lista_normal[0]
-                    pares_2=lista_normal[1]
+                    lista_normal = calcular_puntaje_normal(puntos_2, pares_2)
+                    puntos_2 = lista_normal[0]
+                    pares_2 = lista_normal[1]
         else:
             print(f"El jugador {jugador} no ha encontrado una par\n")
-            matriz_volteada[fila_indicada_1][columna_indicada_1]=simbolo
-            matriz_volteada[fila_indicada_2][columna_indicada_2]=simbolo
+            matriz_volteada[fila_indicada_1][columna_indicada_1] = simbolo
+            matriz_volteada[fila_indicada_2][columna_indicada_2] = simbolo
 
+        jugar = validar_final_normal(pares_encontrados, elementos, cant_bonus_1, cant_bonus_2, pares_1, pares_2)
 
-        jugar=validar_final_normal(pares_encontrados,elementos,cant_bonus_1,cant_bonus_2,pares_1,pares_2)
+        if num_jugador == 2 and jugar != "no":
+            jugar = input("Desea seguir jugando? si/no: ")
+            while jugar != "si" and jugar != "no":
+                jugar = input("Ingrese una opcion valida si/no: ")
+            if jugar == "no":
+                validar_final_forzado(pares_1, pares_2, puntos_1, puntos_2, cant_bonus_1, cant_bonus_2)
 
-        if num_jugador==2 and jugar!="no":
-            jugar=input("Desea seguir jugando? si/no: ")
-            while jugar!="si" and jugar!="no":
-                jugar=input("Ingrese una opcion valida si/no: ")
-            if jugar=="no":
-                validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bonus_2)
-
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
