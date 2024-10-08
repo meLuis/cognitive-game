@@ -37,15 +37,15 @@ def dibujar_matriz(matriz,m_cuadrada):
 
 def calcular_puntaje_normal(puntaje,pares):
     #calcular puntaje y pares
-    puntaje+=100
-    pares+=1
+    puntaje=puntaje+100
+    pares=pares+1
     return [puntaje,pares]
 
 def calcular_puntaje_bonus(puntaje,cant_bonus,pares):
     #calcular puntaje y pares bonus
-    cant_bonus+=1
-    puntaje+=1000
-    pares+=1
+    cant_bonus= cant_bonus+1
+    puntaje=puntaje+1000
+    pares=pares+1
     return [puntaje,pares,cant_bonus]
 
 
@@ -68,32 +68,32 @@ def validar_casilla_sin_voltear(simbolo,matriz,fila,columna):
     return [fila,columna]
 
 
-def validar_final_normal(pares_encontrados,elementos,cant_bonus_1,cant_bonus_2,pares_1,pares_2):
+def validar_final_normal(jugador,pares_encontrados,elementos,cant_bonus_1,cant_bonus_2,pares_1,pares_2):
     #validar si el juego ha terminado normalmente y mostrar ganador
     if pares_encontrados==elementos//2:
         print("El juego ha terminado")
         if cant_bonus_1>cant_bonus_2:
-            print("El ganador es el jugador 1")
+            print(f"El ganador es el {jugador}")
             print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_1*1000*pares_1)
         elif cant_bonus_1<cant_bonus_2:
-            print("El ganador es el jugador 2")
+            print(f"El ganador es el {jugador}")
             print("Bonus points multiplicados por el total de pares destapados: ",cant_bonus_2*1000*pares_2)
         else:
             print("El juego ha terminado en empate")
         return 'no'
     return 'si'
 
-def validar_final_forzado(pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bonus_2):
+def validar_final_forzado(jugador,pares_1,pares_2,puntos_1,puntos_2,cant_bonus_1,cant_bonus_2):
     #validar si el juego ha terminado forzadamente y mostrar ganador
     print("El juego se ha detenido")
-    print("Pares jugador 1: ",pares_1)
-    print("Pares jugador 2: ",pares_2)
-    print("Puntos jugador 1: ",puntos_1)
-    print("Puntos jugador 2: ",puntos_2)
+    print(f"Pares {jugador}: ",pares_1)
+    print(f"Puntos {jugador}: ",puntos_1)
     if cant_bonus_1:
-        print("Bonus points jugador 1: ",cant_bonus_1*1000)
+        print(f"Bonus points {jugador}: ",cant_bonus_1*1000)
+    print(f"Puntos {jugador}: ",puntos_2)
+    print(f"Pares {jugador}: ",pares_2)
     if cant_bonus_2:
-        print("Bonus points jugador 2: ",cant_bonus_2*1000)
+        print(f"Bonus points {jugador}: ",cant_bonus_2*1000)
 
 def solicitar_posicion_valida(mensaje):
     valor = input(mensaje)
@@ -120,6 +120,7 @@ def main():
     pares_2 = 0
     matriz = crear_matriz(m_cuadrada, elementos)
     matriz_volteada = crear_matriz_volteada(simbolo, m_cuadrada, elementos)
+    dibujar_matriz(matriz, m_cuadrada)
     dibujar_matriz(matriz_volteada, m_cuadrada)
 
     while jugar == 'si':
@@ -195,14 +196,14 @@ def main():
             matriz_volteada[fila_indicada_1][columna_indicada_1] = simbolo
             matriz_volteada[fila_indicada_2][columna_indicada_2] = simbolo
 
-        jugar = validar_final_normal(pares_encontrados, elementos, cant_bonus_1, cant_bonus_2, pares_1, pares_2)
+        jugar = validar_final_normal(jugador,pares_encontrados, elementos, cant_bonus_1, cant_bonus_2, pares_1, pares_2)
 
         if num_jugador == 2 and jugar != "no":
             jugar = input("Desea seguir jugando? si/no: ")
             while jugar != "si" and jugar != "no":
                 jugar = input("Ingrese una opcion valida si/no: ")
             if jugar == "no":
-                validar_final_forzado(pares_1, pares_2, puntos_1, puntos_2, cant_bonus_1, cant_bonus_2)
+                validar_final_forzado(jugador,pares_1, pares_2, puntos_1, puntos_2, cant_bonus_1, cant_bonus_2)
 
 if __name__ == '__main__':
     main()
